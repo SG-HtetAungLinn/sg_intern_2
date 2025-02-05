@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserCreateRequest;
 
@@ -31,5 +32,13 @@ class UserController extends Controller
     {
         $users = User::all();
         return response()->json($users);
+    }
+    public function userDelete(Request $request)
+    {
+        $delete = User::findOrFail($request->id)->delete();
+        if ($delete) {
+            return response()->json(true);
+        }
+        return response()->json(false);
     }
 }

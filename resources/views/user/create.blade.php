@@ -59,7 +59,7 @@
                                 @{{ item.email }}
                             </td>
                             <td>
-                                <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                                <a class="btn btn-danger btn-sm" ng-click="deleteUser(item.id)">Delete</a>
                             </td>
                         </tr>
                     </tbody>
@@ -74,13 +74,36 @@
         var app = angular.module('app', []);
         app.controller('myCtrl', function($scope, $http) {
             $scope.users = []
-            $http.get('/users/data').then(function(response) {
-                if (response.status === 200) {
-                    $scope.users = response.data;
-                } else {
-                    alert('Error fetching data');
+            getData()
+            $scope.deleteUser = function(id) {
+                let conAlert = confirm('Are you sure you want to delete')
+                if (conAlert) {
+                    $http({
+                            method: 'POST',
+                            url: '/users/delete',
+                            data: {
+                                id
+                            }
+                        })
+                        .then(
+                            function(response) {
+                                alert(messages.deleteSuccess[0])
+                                getData()
+                            })
                 }
-            })
+            }
+
+            function getData() {
+                $http.get('/users/data')
+                    .then(
+                        function(response) {
+                            if (response.status === 200) {
+                                $scope.users = response.data;
+                            } else {
+                                alert('Error fetching data');
+                            }
+                        })
+            }
         });
     </script>
 @endsection
