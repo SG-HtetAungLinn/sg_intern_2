@@ -16,14 +16,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     {{-- Angular --}}
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <style>
+        body {
+            background: gray;
+            font-family: 'Roboto', sans-serif;
+        }
+    </style>
 </head>
 
 <body>
     <div class="container" ng-app="app" ng-controller="myCtrl">
         <div class="row d-flex justify-content-center align-items-center" style="height: 100vh">
-            <div class="col-md-7">
-                @yield('content')
-            </div>
+            @yield('content')
         </div>
     </div>
     <!-- MDB -->

@@ -27,4 +27,9 @@ class UserController extends Controller
         ]);
         return back()->with('success', 'User created successfully!');
     }
+    public function userData()
+    {
+        $users = User::all();
+        return response()->json($users);
+    }
 }

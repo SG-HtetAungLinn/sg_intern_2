@@ -19,5 +19,8 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', [UserController::class, 'index'])->name('user.index');
-Route::get('/users/create', [UserController::class, 'create'])->name('user.create');
-Route::post('/users', [UserController::class, 'store'])->name('user.store');
+Route::group(['prefix' => 'users'], function () {
+    Route::get('create', [UserController::class, 'create'])->name('user.create');
+    Route::post('/', [UserController::class, 'store'])->name('user.store');
+    Route::get('data', [UserController::class, 'userData'])->name('user.userData');
+});
