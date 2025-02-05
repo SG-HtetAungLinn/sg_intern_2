@@ -26,7 +26,7 @@ class UserController extends Controller
             'email'         => $request->email,
             'password'      => Hash::make($request->password),
         ]);
-        return back()->with('success', 'User created successfully!');
+        return response()->json(['message' => 'User created successfully!']);
     }
     public function userData()
     {

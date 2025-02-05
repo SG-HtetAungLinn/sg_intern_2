@@ -10,7 +10,7 @@
 
         <div class="card">
             <div class="card-body">
-                <form method="POST" action="{{ route('user.store') }}">
+                <form method="POST" action="{{ route('user.store') }}" id="userForm">
                     @csrf
                     <div data-mdb-input-init class="form-outline mb-4">
                         <input type="text" name="first_name" id="first_name" class="form-control mb-3"
@@ -36,11 +36,11 @@
         </div>
     </div>
     <div class="col-md-8">
-        <div class="card">
+        <div class="card " style="height: 70vh; overflow:auto">
             <div class="card-body">
-                <table class="table">
+                <table class="table" style="position: relative">
                     <thead>
-                        <tr>
+                        <tr style="position: sticky; top:0">
                             <th>ID</th>
                             <th>Name</th>
                             <th>Email</th>
@@ -92,6 +92,28 @@
                             })
                 }
             }
+            $('#userForm').on('submit', function(e) {
+                e.preventDefault()
+                $http({
+                    method: 'POST',
+                    url: $(this).attr('action'),
+                    data: {
+                        first_name: $('#first_name').val(),
+                        last_name: $('#last_name').val(),
+                        email: $('#email').val(),
+                        password: $('#password').val(),
+                    }
+                }).then(function(response) {
+                    if (response.status === 200) {
+                        alert(response.data.message)
+                        $('#first_name').val("")
+                        $('#last_name').val("")
+                        $('#email').val("")
+                        $('#password').val("")
+                        getData()
+                    }
+                })
+            })
 
             function getData() {
                 $http.get('/users/data')
