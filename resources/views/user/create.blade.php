@@ -10,7 +10,7 @@
 
         <div class="card">
             <div class="card-body">
-                <form method="POST" action="{{ route('user.store') }}" id="userForm">
+                <form id="userForm" method="POST" action="{{ route('user.store') }}">
                     @csrf
                     <div data-mdb-input-init class="form-outline mb-4">
                         <input type="text" name="first_name" id="first_name" class="form-control mb-3"
@@ -30,7 +30,7 @@
                             autocomplete="new-password" />
                         <label class="form-label" for="password">Password</label>
                     </div>
-                    <input type="submit" class="btn btn-info w-100">
+                    <input type="submit" class="btn btn-info w-100" value="Submit">
                 </form>
             </div>
         </div>
@@ -41,14 +41,23 @@
                 <table class="table" style="position: relative">
                     <thead>
                         <tr style="position: sticky; top:0">
-                            <th>ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
+                            <th ng-click="sortData('id')">
+                                ID
+                                <i ng-class="getSortClass('id')"></i>
+                            </th>
+                            <th ng-click="sortData('name')">
+                                Name
+                                <i ng-class="getSortClass('name')"></i>
+                            </th>
+                            <th ng-click="sortData('email')">
+                                Email
+                                <i ng-class="getSortClass('email')"></i>
+                            </th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr ng-repeat="item in users">
+                        <tr ng-repeat="item in users | orderBy:sortColumn:reverseSort">
                             <td>
                                 @{{ item.id }}
                             </td>
@@ -74,6 +83,8 @@
         var app = angular.module('app', []);
         app.controller('myCtrl', function($scope, $http) {
             $scope.users = []
+            $scope.sortColumn = 'id';
+            $scope.reverseSort = false;
             getData()
             $scope.deleteUser = function(id) {
                 let conAlert = confirm('Are you sure you want to delete')
@@ -126,6 +137,20 @@
                             }
                         })
             }
+            $scope.sortData = function(column) {
+                if ($scope.sortColumn === column) {
+                    $scope.reverseSort = !$scope.reverseSort;
+                } else {
+                    $scope.sortColumn = column;
+                    $scope.reverseSort = false;
+                }
+            };
+            $scope.getSortClass = function(column) {
+                if ($scope.sortColumn === column) {
+                    return $scope.reverseSort ? 'fa fa-sort-down' : 'fa fa-sort-up';
+                }
+                return 'fa fa-sort';
+            };
         });
     </script>
 @endsection

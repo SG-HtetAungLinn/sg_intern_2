@@ -25,3 +25,7 @@ Route::group(['prefix' => 'users'], function () {
     Route::get('data', [UserController::class, 'userData'])->name('user.userData');
     Route::post('delete', [UserController::class, 'userDelete'])->name('user.userDelete');
 });
+Route::get('/test', function () {
+    return view('index');
+});
+
